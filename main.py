@@ -9,21 +9,22 @@ from kivy.uix.screenmanager import ScreenManager,Screen
 
 class Home(Screen):
 	pass
-class Work(Screen):
-	pass
-class Alternate(Screen):
+	
+class Other(Screen):
 	pass
 
 class ScreenManagement(ScreenManager):
-    pass
+	pass
 
-presentation = Builder.load_file("NotePad.kv")
+
+presentation=Builder.load_file("NotePad.kv")
 
 class NotePadApp(App):
 	def build(self):
 		return presentation
 	def process(self):
-		text=self.root.ids.input.text
+		home=self.root.get_screen('home')
+		text=home.ids.input.text
 		print(text)
 	
 
