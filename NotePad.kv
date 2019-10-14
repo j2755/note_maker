@@ -1,0 +1,41 @@
+
+ScreenManagement:
+	Home:
+	Work:
+	Alternate:
+
+<Home>:
+	name:"home"
+	GridLayout:
+		cols:1
+		Label:
+			text:'Notepad'
+			size_hint: (.1, .1)
+		TextInput:
+			id: input
+			text:'Text Input'
+			pos:(100,100)
+			
+		Button:
+			text: 'Submit'
+			size_hint: (.2, .1)
+			width: 500
+			on_release:app.process()
+		Button:
+			text: 'Change'
+			on_release: app.root.current="work"
+<Work>:
+	name: 'work'
+	Label:
+		text:"Work Screen"
+	Button:
+		text: 'Change'
+		on_release: app.root.current="home"
+	Button:
+		text: 'Change 2'
+		on_release: app.root.current="alt"
+
+<Alternate>:
+	name:'alt'
+	Label:
+		text: 'Alternate'
