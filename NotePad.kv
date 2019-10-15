@@ -1,32 +1,42 @@
 ScreenManagement:
 	id:manager
 
-	Home:
-	Other:
+	Topics:
+		id:topics
+	Note:
+		id:note
+	Subtopics:
+		id:subtopics
 
 
-<Home>:
+<Topics>:
 	name:"home"
-	GridLayout:
-		cols:1
-		Label:
-			text:'Notepad'
-			size_hint: (.1, .1)
-		TextInput:
-			id: input
-			text:'Text Input'
-			pos:(100,100)
-			
+	grid:grid
+	BoxLayout:
+		orientation: 'vertical'
+		pos_hint: {"x": 0,"y": 0 }
+		padding: 20
 		Button:
-			text: 'Submit'
-			size_hint: (.2, .1)
-			width: 500
-			on_release: app.process()
+			text: 'Button'
+			pos_hint: {'right': 1}
+			size_hint: (.2, .2)
 		Button:
-			text: 'Change to Other'
-			on_release: app.root.current="other"
-<Other>:
-	name:'other'
+			text: 'Say root'
+			on_release:print(root)
+
+		
+		GridLayout:
+			id:grid
+			cols:2
+			padding: 10
+			spacing: 10
+
+
+			Button:
+				text: 'Grid'
+				on_release:app.root.current='Notes'
+<Note>:
+	name:'Notes'
 	GridLayout:
 		cols:1
 		Label:
@@ -34,3 +44,21 @@ ScreenManagement:
 		Button:
 			text: 'Change to home'
 			on_release:app.root.current= 'home'
+		Button:
+			text: 'Go to Subtopics'
+			on_release:app.root.current='Subtopics'
+		Button:
+			text: 'Say root'
+			on_release:print(root)
+<Subtopics>:
+	name:'Subtopics'
+	GridLayout:
+		cols:1
+		Label:
+			text: 'Subtopics Screen'
+		Button:
+			text:'go home'
+			on_release:app.root.current='home'
+		Button:
+			text: 'Say root'
+			on_release:print(root)
