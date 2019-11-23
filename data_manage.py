@@ -44,4 +44,17 @@ def query_notes(conn):
 	rows=cur.fetchall()
 
 	return rows
+def update_tasks_table(db_file,new_note):
+
+	with connect_to_db(db_file) as conn:
+		cursor=conn.cursor()
+		sql_update_query=""" 
+		UPDATE  notes
+		SET note_title=?,
+		note_content=?,
+		date_written=?
+		where id= ? 
+		"""
+		cursor.execute(sql_update_query,new_note)
+		conn.commit()
 

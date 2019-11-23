@@ -40,8 +40,15 @@ class Note_card(Button):
 	def on_touch_down(self,touch):
 		if self.collide_point(*touch.pos):
         # The touch has occurred inside the widgets area. Do stuff!
-			print(str(self.note_content))
+			notes_screen=self.parent.parent.parent.parent.parent.get_screen('notes')
+			notes_screen.note_id=self.note_id
+			iden=notes_screen.ids
+			iden.note_title.text=self.note_title
+			iden.note_content.text=self.note_content
+			
+			print(notes_screen.note_id)
 			pass
+
 
 
 class Note_view(ScrollView):
@@ -76,6 +83,10 @@ class Home(Screen):
 
 	
 class Note(Screen):
+	note_id=NumericProperty()
+
+
+
 	pass
 
 class ScreenManagement(ScreenManager):
@@ -94,6 +105,7 @@ class NotePadApp(App):
 		iden=note_screen.ids
 		n_title=iden.note_title.text
 		n_content=iden.note_content.text
+		n_id=note_screen.note_id
 		if (n_title or n_content)=='':
 			n_title='none'
 			n_content='none'
@@ -104,7 +116,17 @@ class NotePadApp(App):
 
 	def submit(self):
 		entry=self.get_note_info()
-		if (entry[1] or entry[2]) != 'none':
+		note_screen=self.root.get_screen('notes')
+		old_id=note_screen.note_id
+
+		if old_id!=None:
+			
+			new_date=datetime.date.today()
+			new_entry=[entry[0],entry[1],new_date,old_id]
+
+			data_manage.update_tasks_table(db_file,new_entry)
+
+		elif (entry[1] or entry[2]) != 'none':
 			with data_manage.connect_to_db(db_file) as conn:
 
 				data_manage.insert_entry_to_notes(conn,entry)
@@ -115,7 +137,6 @@ class NotePadApp(App):
 			iden=note_screen.ids
 			iden.note_title.hint_text='Write a title for your note'
 			iden.note_content.hint_text='Write content for your note'
-		
 
 		
 		
