@@ -65,9 +65,9 @@ class Note_view(ScrollView):
 		entry_list=[]
 		with data_manage.connect_to_db(db_file) as conn:
 			entry_list=data_manage.query_notes(conn)
-		print(entry_list)
+		
 		for i in entry_list:
-			btn=Note_card(note_id=str(i[0]),note_title=str(i[1]),note_content=str(2),note_date=str(i[3]),size_hint_y=None,height=40)
+			btn=Note_card(note_id=str(i[0]),note_title=str(i[1]),note_content=str(i[2]),note_date=str(i[3]),size_hint_y=None,height=40)
 			layout.add_widget(btn)
 
 		self.add_widget(layout)
@@ -78,6 +78,14 @@ class Note_view(ScrollView):
 
 
 class Home(Screen):
+	def make_new_note(self):
+		new_note=self.manager.get_screen('notes')
+		new_note.note_id=0
+		new_note.note_title=''
+		new_note.note_content=''
+		self.manager.current='notes'
+
+		
 	pass
 	
 
@@ -104,7 +112,9 @@ class NotePadApp(App):
 		note_screen=self.root.get_screen('notes')
 		iden=note_screen.ids
 		n_title=iden.note_title.text
+		print(n_title)
 		n_content=iden.note_content.text
+		print(n_content)
 		n_id=note_screen.note_id
 		if (n_title or n_content)=='':
 			n_title='none'
@@ -119,14 +129,16 @@ class NotePadApp(App):
 		note_screen=self.root.get_screen('notes')
 		old_id=note_screen.note_id
 
-		if old_id!=None:
+		if old_id!=0:
 			
 			new_date=datetime.date.today()
+
 			new_entry=[entry[0],entry[1],new_date,old_id]
+			
 
 			data_manage.update_tasks_table(db_file,new_entry)
 
-		elif (entry[1] or entry[2]) != 'none':
+		elif (entry[1] or entry[0]) != 'none':
 			with data_manage.connect_to_db(db_file) as conn:
 
 				data_manage.insert_entry_to_notes(conn,entry)
