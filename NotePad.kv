@@ -26,7 +26,7 @@ ScreenManagement:
 			
 		Button:
 			text: 'New Note'
-			on_release:app.root.current='notes'
+			on_release:root.make_new_note()
 			size_hint: (.2, .1)
 		
 
@@ -56,7 +56,7 @@ ScreenManagement:
 		
 		TextInput:
 			id: note_content
-			hint_text:'fssdsdsd'
+			hint_text:'Write your note'
 			size_hint: (1, 1)
 		Button:
 
