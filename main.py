@@ -45,8 +45,8 @@ class Note_card(Button):
 			iden=notes_screen.ids
 			iden.note_title.text=self.note_title
 			iden.note_content.text=self.note_content
+			self.parent.parent.parent.parent.manager.current='notes'
 			
-			print(notes_screen.note_id)
 			pass
 
 
