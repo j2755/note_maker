@@ -1,64 +1,67 @@
 ScreenManagement:
 	id:manager
 
-	Topics:
-		id:topics
+	Home:
+		id:home
 	Note:
-		id:note
-	Subtopics:
-		id:subtopics
+		id:notes
 
 
-<Topics>:
+
+<Note_card>:
+	note_id:self.note_id
+	note_title:self.note_title
+	note_content:self.note_content
+
+	
+
+
+<Home>:
 	name:"home"
-	grid:grid
-	BoxLayout:
-		orientation: 'vertical'
-		pos_hint: {"x": 0,"y": 0 }
-		padding: 20
+	on_enter: note_view.update_scroll()
+	GridLayout:
+		cols:1
+	
+		
+			
 		Button:
-			text: 'Button'
+			text: 'New Note'
+			on_release:app.root.current='notes'
+			size_hint: (.2, .1)
+		
+
+		Note_view:
+			id: note_view
+
+<Note>:
+	name:"notes"
+	GridLayout:
+
+		cols:1
+		GridLayout:
+			size_hint: (.2, .2)
+			orientation: 'horizontal'
+			rows: 1
+			Label:
+				text: 'tasks'
+				size_hint: (.3, .3)
+			Button:
+				text: 'Home'
+				on_release:app.root.current='home'
+		TextInput:
+			id: note_title
+			hint_text:'Title'
+			size_hint: (.2, .2)
+		
+		TextInput:
+			id: note_content
+			hint_text:'fssdsdsd'
+			size_hint: (1, 1)
+		Button:
+
+			text: 'Submit'
 			pos_hint: {'right': 1}
 			size_hint: (.2, .2)
-		Button:
-			text: 'Say root'
-			on_release:print(root)
+			on_release: app.submit()
 
 		
-		GridLayout:
-			id:grid
-			cols:2
-			padding: 10
-			spacing: 10
-
-
-			Button:
-				text: 'Grid'
-				on_release:app.root.current='Notes'
-<Note>:
-	name:'Notes'
-	GridLayout:
-		cols:1
-		Label:
-			text: 'Other Screen'
-		Button:
-			text: 'Change to home'
-			on_release:app.root.current= 'home'
-		Button:
-			text: 'Go to Subtopics'
-			on_release:app.root.current='Subtopics'
-		Button:
-			text: 'Say root'
-			on_release:print(root)
-<Subtopics>:
-	name:'Subtopics'
-	GridLayout:
-		cols:1
-		Label:
-			text: 'Subtopics Screen'
-		Button:
-			text:'go home'
-			on_release:app.root.current='home'
-		Button:
-			text: 'Say root'
-			on_release:print(root)
