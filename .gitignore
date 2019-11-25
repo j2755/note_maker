@@ -1,2 +1,5 @@
 #ignore working database
 notes.db
+#ignore pycache and target
+__pycache__
+__target__
