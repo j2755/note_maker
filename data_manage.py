@@ -57,4 +57,3 @@ def update_tasks_table(db_file,new_note):
 		"""
 		cursor.execute(sql_update_query,new_note)
 		conn.commit()
-

@@ -18,12 +18,12 @@ from kivy.clock import Clock
 import data_manage
 import datetime
 import os
-
+import kivy
 Window.clearcolor = (.2, .27, .5, 1)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 db_file=dir_path+"\\notes.db"
 data_manage.initialize_note_table(db_file)
-
+print('made with kivy version 1.11.1')
 
 
 class Note_card(Button):
@@ -65,6 +65,7 @@ class Note_view(ScrollView):
 		entry_list=[]
 		with data_manage.connect_to_db(db_file) as conn:
 			entry_list=data_manage.query_notes(conn)
+			
 		
 		for i in entry_list:
 			btn=Note_card(note_id=str(i[0]),note_title=str(i[1]),note_content=str(i[2]),note_date=str(i[3]),size_hint_y=None,height=40)
@@ -112,9 +113,9 @@ class NotePadApp(App):
 		note_screen=self.root.get_screen('notes')
 		iden=note_screen.ids
 		n_title=iden.note_title.text
-		print(n_title)
+
 		n_content=iden.note_content.text
-		print(n_content)
+		
 		n_id=note_screen.note_id
 		if (n_title or n_content)=='':
 			n_title='none'
