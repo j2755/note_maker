@@ -51,7 +51,6 @@ class Note_card(Button):
 			iden.note_content.scroll_y=0
 			self.parent.parent.parent.parent.manager.current='notes'
 			
-			pass
 
 
 
@@ -113,11 +112,7 @@ class Delete_card(Button):
 				
 			
 
-		
-			
-			pass
-
-	pass
+	
 
 class Delete_scroll(ScrollView):
 	def __init__(self,**kwargs):
@@ -140,7 +135,7 @@ class Delete_scroll(ScrollView):
 			layout.add_widget(btn)
 
 		self.add_widget(layout)
-	pass
+	
 
 
 
@@ -164,7 +159,7 @@ class Delete_screen(Screen):
 		self.ids.delete_view.update_scroll()
 
 
-	pass
+	
 
 	
 class Note(Screen):
@@ -177,7 +172,7 @@ class Note(Screen):
 
 
 
-	pass
+	
 
 class ScreenManagement(ScreenManager):
 	pass
