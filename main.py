@@ -148,8 +148,8 @@ class Home(Screen):
 	def make_new_note(self):
 		new_note=self.manager.get_screen('notes')
 		
-		new_note.note_title=''
-		new_note.note_content=''
+		new_note.ids.note_title.text=''
+		new_note.ids.note_content.text=''
 		self.manager.current='notes'
 
 class Delete_screen(Screen):
