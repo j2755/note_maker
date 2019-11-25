@@ -57,3 +57,11 @@ def update_tasks_table(db_file,new_note):
 		"""
 		cursor.execute(sql_update_query,new_note)
 		conn.commit()
+def delete_entry_by_id(db_file,entry_id):
+
+	with connect_to_db(db_file) as conn:
+		cursor=conn.cursor()
+		sql_delete_query="""DELETE from notes where id=?"""
+		cursor.execute(sql_delete_query,(entry_id,))
+		conn.commit()
+		cursor.close()

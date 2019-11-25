@@ -45,6 +45,7 @@ class Note_card(Button):
 			iden=notes_screen.ids
 			iden.note_title.text=self.note_title
 			iden.note_content.text=self.note_content
+			iden.note_content.scroll_y=0
 			self.parent.parent.parent.parent.manager.current='notes'
 			
 			pass
@@ -81,18 +82,22 @@ class Note_view(ScrollView):
 class Home(Screen):
 	def make_new_note(self):
 		new_note=self.manager.get_screen('notes')
-		new_note.note_id=0
+		
 		new_note.note_title=''
 		new_note.note_content=''
 		self.manager.current='notes'
 
-		
+class Delete_screen(Screen):
 	pass
-	
 
 	
 class Note(Screen):
 	note_id=NumericProperty()
+
+	def delete_self(self):
+		current_id=self.note_id
+		data_manage.delete_entry_by_id(db_file,current_id)
+		self.manager.current='home'
 
 
 

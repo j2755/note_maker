@@ -5,7 +5,8 @@ ScreenManagement:
 		id:home
 	Note:
 		id:notes
-
+	Delete_screen:
+		id:delete_screen
 
 
 <Note_card>:
@@ -21,13 +22,23 @@ ScreenManagement:
 	on_enter: note_view.update_scroll()
 	GridLayout:
 		cols:1
+
+
 	
-		
+		GridLayout:
+			rows:1
+			size_hint: (1, .1)
 			
-		Button:
-			text: 'New Note'
-			on_release:root.make_new_note()
-			size_hint: (.2, .1)
+			Button:
+				text: 'New Note'
+				on_release:root.make_new_note()
+				size_hint: (.2, .1)
+			Button:
+				text: 'Delete Note'
+				size_hint: (.2, .2)
+				on_release:app.root.current= 'delete_screen'
+
+
 		
 
 		Note_view:
@@ -47,6 +58,9 @@ ScreenManagement:
 				text: 'tasks'
 				size_hint: (.3, .3)
 			Button:
+				text: 'Delete'
+				on_release: root.delete_self()
+			Button:
 				text: 'Home'
 				on_release:app.root.current='home'
 		TextInput:
@@ -65,4 +79,13 @@ ScreenManagement:
 			size_hint: (.2, .2)
 			on_release: app.submit()
 
-		
+<Delete_screen>:
+	name: 'delete_screen'
+	GridLayout:
+		cols:1
+		Button:
+			text: 'Cancel'
+		Note_view:
+			id: delete_view
+		Button:
+			text: 'Confirm'
