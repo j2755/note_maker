@@ -14,7 +14,11 @@ ScreenManagement:
 	note_title:self.note_title
 	note_content:self.note_content
 
-	
+<Delete_card>:
+	note_id:self.note_id
+	note_title:self.note_title
+	note_content:self.note_content
+	deletion_status:self.deletion_status
 
 
 <Home>:
@@ -81,11 +85,14 @@ ScreenManagement:
 
 <Delete_screen>:
 	name: 'delete_screen'
+	on_enter: delete_view.update_scroll()
 	GridLayout:
 		cols:1
 		Button:
 			text: 'Cancel'
-		Note_view:
+			on_release: root.cancel_delete()
+		Delete_scroll:
 			id: delete_view
 		Button:
 			text: 'Confirm'
+			on_release: root.complete_deletion()

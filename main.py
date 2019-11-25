@@ -14,6 +14,8 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.properties import StringProperty
 from kivy.properties import NumericProperty
+from kivy.properties import BooleanProperty
+from kivy.properties import ListProperty
 from kivy.clock import Clock
 import data_manage
 import datetime
@@ -35,6 +37,7 @@ class Note_card(Button):
 	def __init__(self,**kwargs):
 		super(Note_card,self).__init__(**kwargs)
 		self.text=str(self.note_title)
+		self.background_color=(0,1,0,.5)
 		
 		
 	def on_touch_down(self,touch):
@@ -75,7 +78,69 @@ class Note_view(ScrollView):
 		self.add_widget(layout)
 		
 
+class Delete_card(Button):
+	note_id=NumericProperty()
+	note_title=StringProperty()
+	note_content=StringProperty()
+	note_date=StringProperty()
+	deletion_status=BooleanProperty()
 
+	def __init__(self,**kwargs):
+		super(Delete_card,self).__init__(**kwargs)
+		self.text=str(self.note_title)
+		self.background_color=(0,1,0,.5)
+		self.deletion_status=False
+		
+		
+	def on_touch_down(self,touch):
+		if self.collide_point(*touch.pos):
+        # The touch has occurred inside the widgets area. Do stuff!
+			queue=[]
+			del_screen=self.parent.parent.parent.parent
+			
+			print(del_screen)
+			if self.deletion_status==False:
+				queue.append(self.note_id)
+				del_screen.items_to_delete.append(self.note_id)
+				self.deletion_status=True
+				self.background_color=(1,0,0,.5)
+			else:
+				self.deletion_status=False
+				self.background_color=(0,1,0,.5)
+				print("Button id is: "+str(self.note_id))
+				del_screen.items_to_delete.remove(self.note_id)
+
+				
+			
+
+		
+			
+			pass
+
+	pass
+
+class Delete_scroll(ScrollView):
+	def __init__(self,**kwargs):
+		super(Delete_scroll,self).__init__(**kwargs)
+		self.update_scroll()
+		
+	def update_scroll(self):
+		for c in list(self.children):
+			if isinstance(c, GridLayout):
+				self.remove_widget(c)
+		layout=GridLayout(cols=2, spacing=10, size_hint_y=None)
+		layout.bind(minimum_height=layout.setter('height'))
+		entry_list=[]
+		with data_manage.connect_to_db(db_file) as conn:
+			entry_list=data_manage.query_notes(conn)
+			
+		
+		for i in entry_list:
+			btn=Delete_card(note_id=str(i[0]),note_title=str(i[1]),note_content=str(i[2]),note_date=str(i[3]),size_hint_y=None,height=40)
+			layout.add_widget(btn)
+
+		self.add_widget(layout)
+	pass
 
 
 
@@ -88,6 +153,17 @@ class Home(Screen):
 		self.manager.current='notes'
 
 class Delete_screen(Screen):
+	items_to_delete=ListProperty()
+	def cancel_delete(self):
+		self.items_to_delete=[]
+		self.manager.current='home'
+	def complete_deletion(self):
+		
+		for item in self.items_to_delete:
+			data_manage.delete_entry_by_id(db_file,item)
+		self.ids.delete_view.update_scroll()
+
+
 	pass
 
 	
@@ -156,7 +232,7 @@ class NotePadApp(App):
 			iden.note_title.hint_text='Write a title for your note'
 			iden.note_content.hint_text='Write content for your note'
 
-		
+
 		
 	
 
