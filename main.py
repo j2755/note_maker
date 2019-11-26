@@ -1,3 +1,5 @@
+
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput 
@@ -21,7 +23,7 @@ import data_manage
 import datetime
 import os
 import kivy
-Window.clearcolor = (.2, .27, .5, 1)
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 db_file=dir_path+"\\notes.db"
 data_manage.initialize_note_table(db_file)
@@ -219,6 +221,7 @@ class NotePadApp(App):
 			with data_manage.connect_to_db(db_file) as conn:
 
 				data_manage.insert_entry_to_notes(conn,entry)
+				self.root.current='home'
 
 		else:
 			print('none')
